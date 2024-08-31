@@ -1,0 +1,126 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 80px; /* Prevent overlap with the header */
+}
+
+.intro {
+    background-color: #666;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.intro h2 {
+    margin-top: 0;
+}
+
+.action-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff6600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.sign-up {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.sign-up h3 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.social-signup {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.linkedin {
+    background-color: #0077b5;
+    color: #fff;
+}
+
+.google {
+    background-color: #dd4b39;
+    color: #fff;
+}
+
+.separator {
+    text-align: center;
+    margin: 10px 0;
+    font-style: italic;
+}
+
+.sign-up form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.sign-up form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
