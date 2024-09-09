@@ -20,17 +20,37 @@ def log_the_user_in(username):
 def index():
     return render_template('index.html')
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    """_summary_
+            simple login function
+    Returns:
+        _type_: _description_
+    """
+    email = ""
+    password = ""
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        if valid_login(email, password):
+            data = {"code": 200, "message": "success"}
+            redirect("/dashboard", 200, Response=data)
+
+    else:
+        redirect("/login", 302, Response="Invalid login")
+
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
     """_summary_
         simple login function
     Returns:
         _type_: _description_
     """
-    return render_template('login.html')
+    return render_template('dashboard.html')
 
 def valid_login(username, password):
-    if username == 'admin' and password == 'admin':
+    if username == 'admin@gmail.com' and password == 'admin':
+        redirect("/dashboard", 200, Response="Success")
         return True
     else:
         return False

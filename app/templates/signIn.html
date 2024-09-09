@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViCIO - Sign In</title>
+    <!-- Link to sign-in CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/styles/signin.css?{{ cache_id }}" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="auth-title">Sign In</h1>
+
+            <!-- Sign In Form -->
+            <form action="{{ url_for('login') }}" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn auth-btn">Sign In</button>
+                {% if error %}
+                    <p style="color:red;">{{ error }}</p>
+                {% endif %}
+            </form>
+
+            <!-- OR divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Social Sign In Options -->
+            <div class="social-login">
+                <button class="btn google-btn">Sign in with Google</button>
+                <button class="btn linkedin-btn">Sign in with LinkedIn</button>
+            </div>
+
+            <!-- Footer -->
+            <p action="{{ url_for('sign_up') }}" method="get" class="auth-footer">Don't have an account? <a href="{{ url_for('sign_up') }}">Sign Up</a></p>
+        </div>
+    </div>
+</body>
+</html>

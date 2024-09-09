@@ -3,30 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ViCIO - Sign Up or Sign In</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>ViCIO - Sign Up</title>
+    <!-- Link to sign-up CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/styles/signup.css?{{ cache_id }}" />
 </head>
 <body>
-    <header>
-        <div class="logo">ViCIO</div>
-    </header>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="auth-title">Sign Up</h1>
 
-    <main>
-        <section class="form-section">
-            <h3>Sign Up</h3>
-            <form action="{{ url_for('sign_up') }}" method="post">
-                <input type="email" name="email" placeholder="Your email address" required>
-                <input type="password" name="password" placeholder="Pick a password" required>
-                <button type="submit">Sign Up</button>
+            <!-- Sign Up Form -->
+            <form action="{{ url_for('sign_up') }}" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn auth-btn">Sign Up</button>
                 {% if error %}
                     <p style="color:red;">{{ error }}</p>
                 {% endif %}
             </form>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2024 ViCIO. All Rights Reserved.</p>
-    </footer>
+            <!-- OR divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Social Sign Up Options -->
+            <div class="social-login">
+                <button class="btn google-btn">Sign up with Google</button>
+                <button class="btn linkedin-btn">Sign up with LinkedIn</button>
+            </div>
+
+            <!-- Footer -->
+            <p action="{{ url_for('login') }}" method="get" class="auth-footer">Already have an account? <a href="{{ url_for('login') }}">Sign In</a></p>
+        </div>
+    </div>
 </body>
 </html>
