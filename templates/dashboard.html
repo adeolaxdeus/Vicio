@@ -1,0 +1,41 @@
+<!-- display the current task of the user and allow them to
+       progress to the next task.  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Vício</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, {{ current_user.username }}</h1>
+        <div class="task-container">
+            <h2>Current Task</h2>
+            <p id="current-task">{{ current_task }}</p>
+        </div>
+        <button id="next-task-button">Next Task</button>
+        <div id="next-task-message"></div>
+    </div>
+
+    <script>
+        const nextTaskButton = document.getElementById('next-task-button');
+        const currentTaskElement = document.getElementById('current-task');
+        const nextTaskMessage = document.getElementById('next-task-message');
+
+        nextTaskButton.addEventListener('click', function() {
+            fetch('/next_task')
+            .then(response => response.json())
+            .then(data => {
+                if (data.next_task) {
+                    currentTaskElement.textContent = data.next_task;
+                } else {
+                    nextTaskMessage.textContent = data.message;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
