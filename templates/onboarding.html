@@ -1,0 +1,54 @@
+<!-- handle the chatbot interaction where the AI asks the user questions. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Vício</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Welcome to Vício</h1>
+        <div id="chat-box">
+            <p id="ai-message">Hello! I'm here to help you. Let's get started. What type of addiction are you struggling with?</p>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your response..." />
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        const sendButton = document.getElementById('send-button');
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+
+        sendButton.addEventListener('click', function() {
+            const userMessage = userInput.value;
+
+            if (userMessage.trim() !== "") {
+                // Append user message to chat
+                const userMessageElement = document.createElement('p');
+                userMessageElement.textContent = userMessage;
+                userMessageElement.className = 'user-message';
+                chatBox.appendChild(userMessageElement);
+
+                // Send message to the server (Flask app)
+                fetch('/onboarding', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_input: userMessage })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const aiMessageElement = document.createElement('p');
+                    aiMessageElement.textContent = data.response;
+                    aiMessageElement.className = 'ai-message';
+                    chatBox.appendChild(aiMessageElement);
+                    userInput.value = '';  // Clear the input field
+                });
+            }
+        });
+    </script>
+</body>
+</html>
