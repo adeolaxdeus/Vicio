@@ -3,12 +3,12 @@
 
 import openai
 
-openai.api_key = 'your-openai-api-key'
+# openai.api_key = 'your-openai-api-key'
 
 def generate_routine_with_ai(user_data):
     """Generates a routine using OpenAI's GPT API based on user input."""
     prompt = f"Create a daily routine to help someone overcome {user_data['addiction_type']} who struggles with {user_data['struggles']}."
-    
+
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
