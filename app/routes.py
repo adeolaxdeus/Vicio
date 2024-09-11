@@ -1,10 +1,12 @@
-# app/routes.py
+#  Routes for handling onboarding, routine generation, and daily task management.
 
 from flask import request, jsonify, redirect, url_for, flash, render_template
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User
+from .models import User, Routine
+from .chatbot import get_user_data_conversation
+from .daily_engagement import generate_routine_with_ai, extract_first_task, get_next_task
 from flask import current_app as app
 
 # Homepage
@@ -13,7 +15,7 @@ def index():
     return render_template('index.html')
 
 # Registration Route
-@app.route('/register', methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def register():
     if request.method == 'POST':
         data = request.get_json()
@@ -50,7 +52,7 @@ def login():
 
         user = User.query.filter_by(email=email).first()
 
-        if user and check_password_hash(user.password_hash, password):
+        if user and check_password_hash(user.passwd_hash, passwd):
             login_user(user)
             return redirect(url_for('dashboard'))
         else:
@@ -64,8 +66,44 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# Protected Route Example
-@app.route('/dashboard', methods=['GET'])
+@app.route('/onboarding', methods=['GET', 'POST'])
+@login_required
+def onboarding():
+    if request.method == 'POST':
+        user_input = request.get_json()  # Get user input during conversation
+        conversation_response = get_user_data_conversation(user_input)
+
+        if 'generate your personalized routine' in conversation_response:
+            routine_text = generate_routine_with_ai(user_input)
+            new_routine = Routine(
+                user_id=current_user.id,
+                full_routine=routine_text,
+                current_task=extract_first_task(routine_text)
+            )
+            db.session.add(new_routine)
+            db.session.commit()
+            return redirect(url_for('dashboard'))
+
+        return jsonify({'response': conversation_response})
+
+    return render_template('onboarding.html')
+
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    routine = Routine.query.filter_by(user_id=current_user.id).first()
+    if not routine:
+        return redirect(url_for('onboarding'))
+
+    return render_template('dashboard.html', current_task=routine.current_task)
+
+@app.route('/next_task', methods=['GET'])
+@login_required
+def next_task():
+    routine = Routine.query.filter_by(user_id=current_user.id).first()
+    next_task_text = get_next_task(routine)
+    if next_task_text:
+        routine.current_task = next_task_text
+        db.session.commit()
+        return jsonify({'next_task': next_task_text})
+    return jsonify({'message': 'You have completed all tasks!'}), 200
