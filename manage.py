@@ -38,6 +38,7 @@ def login():
 
     else:
         redirect("/login", 302, Response="Invalid login")
+    return render_template('signin.html')
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():

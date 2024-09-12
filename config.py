@@ -8,16 +8,16 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URI') or \
-            'mysql+pymysql://vicio_user:010011010@localhost/vicio_dev'
+            'mysql+pymysql://root:snoz@localhost/vicio_dev'
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or \
-            'mysql+pymysql://vicio_user:010011010@localhost/vicio_test'
+            'mysql+pymysql://root:snoz@localhost/vicio_test'
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI') or \
-            'mysql+pymysql://vicio_user:010011010@localhost/vicio_prod'
+            'mysql+pymysql://root:snoz@localhost/vicio_prod'
 
 config = {
         'development': DevelopmentConfig,
