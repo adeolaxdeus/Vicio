@@ -110,7 +110,7 @@ def onboarding():
     return render_template('onboarding.html')
 
 # Dashboard Route
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
     routine = Routine.query.filter_by(user_id=current_user.id).first()
