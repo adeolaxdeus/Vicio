@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import json
 import os
 from flask import request, jsonify, redirect, url_for, flash, render_template
 from flask_login import login_user, logout_user, login_required, current_user
@@ -31,10 +32,16 @@ def index():
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        email = data.get('email')
-        passwd = data.get('password')
+        # print(request)
+        # data = request.form.deepcopy()
+        # # print(request.form)
+        # with open("Output1.txt", "a") as f:
+        #     f.write(json.dumps(data) + "\n")
+        
+        username = request.form.get('username')
+        email = request.form.get('email')
+        passwd = request.form.get('password')
+        print(f"{username}  pass {email}")
         if not username or not email or not passwd:
             return jsonify({'message': 'Missing fields'}), 400
         if User.query.filter_by(username=username).first() or \
@@ -54,9 +61,9 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        data = request.get_json()
-        email = data.get('email')
-        passwd = data.get('password')
+        # data = request.get_json()
+        email = request.form.get('email')
+        passwd = request.form.get('password')
         if not email or not passwd:
             return jsonify({'message': 'Missing fields'}), 400
         user = User.query.filter_by(email=email).first()

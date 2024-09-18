@@ -12,29 +12,19 @@
         <div class="auth-box">
             <h1 class="auth-title">Sign Up</h1>
 
-            <!-- Sign Up Form -->
-            <form action="{{ url_for('register') }}" method="post" class="auth-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter your username" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" class="btn auth-btn">Sign Up</button>
-                {% if error %}
-                    <p style="color:red;">{{ error }}</p>
-                {% endif %}
+            <form action="/signup" method="POST" class="auth-form">
+                <label for="username">Username:</label>
+                <input class="form-group" type="text" id="username" name="username" required><br><br>
+            
+                <label for="email">Email:</label>
+                <input class="form-group" type="email" id="email" name="email" required><br><br>
+            
+                <label for="password">Password:</label>
+                <input class="form-group" type="password" id="password" name="password" required><br><br>
+            
+                <button class="btn auth-btn" type="submit">Sign Up</button>
             </form>
+
 
             <!-- OR divider -->
             <div class="divider">
