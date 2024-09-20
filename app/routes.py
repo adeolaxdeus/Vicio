@@ -70,28 +70,34 @@ def logout():
 @login_required
 def onboarding():
     if request.method == 'POST':
-        user_input = request.get_json()['user_input']  # User input during onboarding conversation
-        conversation_response = get_user_data_conversation(user_input)  # Chatbot conversation handler
+        user_input = session.get('user_data', {})  # Get or initialize the session
+        new_message = request.get_json().get('user_input')
 
-        # Once we reach the point of generating a routine
+        # Append new message to conversation state
+        user_input['user_message'] = new_message
+
+        # Continue the conversation
+        conversation_response = get_user_data_conversation(user_input)
+
+        # Store updated user data back in session
+        session['user_data'] = user_input
+
+        # Check if the onboarding is done
         if 'generate your personalized routine' in conversation_response:
             routine_text = generate_routine_with_ai(user_input)
-
             new_routine = Routine(
                 user_id=current_user.id,
                 full_routine=routine_text,
                 current_task=extract_first_task(routine_text),
-                progress=0,  # Track the number of completed tasks
-                last_task_date=datetime.utcnow()  # Date of the last task, for daily task reveal
+                progress=0,
+                last_task_date=datetime.utcnow()
             )
             db.session.add(new_routine)
             db.session.commit()
-
+            session.pop('user_data', None)  # Clear session data after completion
             return jsonify({'response': "Onboarding complete! Your first task is ready."})
 
         return jsonify({'response': conversation_response})
-
-    return render_template('onboarding.html')
 
 # Dashboard Route
 @app.route('/dashboard')
